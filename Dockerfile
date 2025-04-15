@@ -17,6 +17,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 RUN npm config set registry https://repo.huaweicloud.com/repository/npm/
 RUN yarn install --frozen-lockfile
+RUN yarn build
 
 # Stage 2: 运行阶段镜像，复用依赖并安装必要系统库
 FROM node:16-bullseye
@@ -39,7 +40,7 @@ COPY yarn.lock ./
 COPY static ./static
 
 
-EXPOSE 1234
+EXPOSE 1234 38533 43421
 HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
     CMD curl -f http://localhost:1234/ || exit 1
 
